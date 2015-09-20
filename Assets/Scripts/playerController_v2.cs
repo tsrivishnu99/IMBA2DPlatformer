@@ -15,6 +15,8 @@ public class playerController_v2 : MonoBehaviour
     public float rotationSpeed = 2.0f;
     public bool grounded = false;
 
+	public float bounceFactor;
+
     private Rigidbody rigidbody;
     
     void Awake()
@@ -64,7 +66,7 @@ public class playerController_v2 : MonoBehaviour
         grounded = false;
     }
 
-	/*
+
 	void OnCollisionEnter(Collision collisionInf)
 	{	
 		//Debug.Log ("collisionEntered");
@@ -72,7 +74,7 @@ public class playerController_v2 : MonoBehaviour
 
 		rigidbody.velocity = new Vector3(0, CalculateJumpVerticalSpeed(), 0);
 	}
-	*/
+
 
     void OnCollisionStay(Collision collisionInf)
     {
@@ -84,6 +86,6 @@ public class playerController_v2 : MonoBehaviour
     {
         // From the jump height and gravity we deduce the upwards speed 
         // for the character to reach at the apex.
-        return Mathf.Sqrt(2 * jumpHeight * gravity);
+		return Mathf.Sqrt(bounceFactor * 2 * jumpHeight * gravity);
     }
 }
