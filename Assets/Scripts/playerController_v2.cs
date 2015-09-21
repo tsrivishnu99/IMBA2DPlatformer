@@ -16,6 +16,9 @@ public class playerController_v2 : MonoBehaviour
     public bool grounded = false;
 
 	public float bounceFactor;
+	public float lightFactor;
+	public float incremental_lightFactor = 1.0f;
+	public bool flightmode = true;
 
     private Rigidbody rigidbody;
     
@@ -28,13 +31,13 @@ public class playerController_v2 : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (grounded)
+        if (grounded || flightmode)
         {
             // Debug.Log(Input.GetAxis("Horizontal"));
             // Calculate how fast we should be moving
             Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, 0);            // Input.GetAxis("Vertical"));
             targetVelocity = transform.TransformDirection(targetVelocity);
-            targetVelocity *= speed;
+            targetVelocity *= speed * lightFactor;
 
             // Apply a force that attempts to reach our target velocity
             Vector3 velocity = rigidbody.velocity;
@@ -47,8 +50,11 @@ public class playerController_v2 : MonoBehaviour
             // Jump
             if (canJump && Input.GetButton("Jump"))
             {
-                rigidbody.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
+				incremental_lightFactor *= 20.0f;
+               // rigidbody.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
+				rigidbody.velocity = new Vector3(velocity.x, CalculateFlightVerticalSpeed(), velocity.z);
             }
+			incremental_lightFactor = 1.0f;
         }
         else
         {
@@ -62,7 +68,7 @@ public class playerController_v2 : MonoBehaviour
         }
         
         // We apply gravity manually for more tuning control
-        rigidbody.AddForce(new Vector3(0, -gravity * rigidbody.mass, 0));
+        rigidbody.AddForce(new Vector3(0, -gravity * rigidbody.mass * lightFactor, 0));
         grounded = false;
     }
 
@@ -86,6 +92,13 @@ public class playerController_v2 : MonoBehaviour
     {
         // From the jump height and gravity we deduce the upwards speed 
         // for the character to reach at the apex.
+		//return Mathf.Sqrt(bounceFactor * 2 * jumpHeight * gravity);
 		return Mathf.Sqrt(bounceFactor * 2 * jumpHeight * gravity);
     }
+
+	float CalculateFlightVerticalSpeed()
+	{
+		return lightFactor * incremental_lightFactor;
+	}
+
 }
