@@ -6,10 +6,10 @@ using System.Collections;
 
 public class playerController_v2 : MonoBehaviour
 {
-    public float speed = 10.0f;
+    public float speed = 2.0f;
     public float gravity = 10.0f;
     public float maxVelocityChange = 5.0f;
-    public float boost = 20.0f;
+    public float boost = 2.0f;
     public bool canJump = true;
     public float jumpHeight = 2.0f;
     public float rotationSpeed = 2.0f;
