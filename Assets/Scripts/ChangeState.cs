@@ -54,7 +54,6 @@ public class ChangeState : MonoBehaviour {
         this.gameObject.GetComponent<Renderer>().material.color = new Color(0, 0, 1, 0);
         playerCollider.material = stickyMaterial;
         this.GetComponent<playerController_v2>().jumpHeight = 1.0f;
-        
     }
 
     void bouncy()
@@ -75,6 +74,7 @@ public class ChangeState : MonoBehaviour {
         this.GetComponent<playerController_v2>().speed = 10.0f;
         this.GetComponent<playerController_v2>().boost = 10.0f;
         this.GetComponent<playerController_v2>().maxVelocityChange = 5.0f;
+        this.GetComponent<playerController_v2>().isFlightMode = false;
         flight = false;
     }
 
@@ -94,9 +94,10 @@ public class ChangeState : MonoBehaviour {
         setDefault();
         this.gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, 0);
         this.GetComponent<playerController_v2>().gravity = 1.0f;
-        this.GetComponent<playerController_v2>().speed = 0.1f;
-        this.GetComponent<playerController_v2>().boost = 0.05f;
-        this.GetComponent<playerController_v2>().maxVelocityChange = 1.0f;
+        this.GetComponent<playerController_v2>().speed = 0.0f;
+        this.GetComponent<playerController_v2>().boost = 0.0f;
+        this.GetComponent<playerController_v2>().maxVelocityChange = 0.0f;
+        this.GetComponent<playerController_v2>().isFlightMode = true;
         flight = true;
     }
 }
