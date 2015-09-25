@@ -14,16 +14,16 @@ public class ChangeState : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         flight = false;
-	playerCollider = this.GetComponent<SphereCollider>();
-    setDefault();
+	    playerCollider = this.GetComponent<SphereCollider>();
+        setDefault();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
+        Debug.Log(this.gameObject.GetComponent<Renderer>().material.color);
         if (Input.GetKeyDown(KeyCode.Z))
             sticky();
-
         if (Input.GetKeyDown(KeyCode.X))
             bouncy();
 
@@ -32,6 +32,8 @@ public class ChangeState : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.V))
             setFlight();
+        if (Input.GetKeyDown(KeyCode.Q))
+            setDefault();
 
         if(flight)
         {
@@ -44,6 +46,7 @@ public class ChangeState : MonoBehaviour {
 
     void sticky()
     {
+        this.gameObject.GetComponent<Renderer>().material.color = new Color(0, 0, 1, 0);
         setDefault();
         playerCollider.material = stickyMaterial;
         this.GetComponent<playerController_v2>().jumpHeight = 1.0f;
@@ -52,12 +55,14 @@ public class ChangeState : MonoBehaviour {
 
     void bouncy()
     {
+        this.gameObject.GetComponent<Renderer>().material.color = new Color(0, 1, 1, 0);
         setDefault();
         playerCollider.material = bouncyMaterial;
     }
 
     void setDefault()
     {
+        //this.gameObject.GetComponent<Renderer>().material.color = new Color(1, 0, 1, 0);
         playerCollider.material = defaultMaterial;
         this.GetComponent<playerController_v2>().jumpHeight = 2.0f;
         this.GetComponent<Rigidbody>().mass = 10.0f;
@@ -70,6 +75,7 @@ public class ChangeState : MonoBehaviour {
 
     void heavy()
     {
+        this.gameObject.GetComponent<Renderer>().material.color = new Color(0, 1, 0, 0);
         setDefault();
         playerCollider.material = heavyMaterial;
         this.GetComponent<playerController_v2>().jumpHeight = 1.0f;
@@ -78,6 +84,7 @@ public class ChangeState : MonoBehaviour {
 
     void setFlight()
     {
+        this.gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, 0);
         setDefault();
         this.GetComponent<playerController_v2>().gravity = 1.0f;
         this.GetComponent<playerController_v2>().speed = 0.1f;
