@@ -74,7 +74,7 @@ public class ChangeState : MonoBehaviour {
         this.GetComponent<Rigidbody>().mass = 10.0f;
         this.GetComponent<playerController_v2>().gravity = 10.0f;
         this.GetComponent<playerController_v2>().speed = 10.0f;
-        this.GetComponent<playerController_v2>().boost = 0.1f;
+        this.GetComponent<playerController_v2>().boost = 10.0f;
         this.GetComponent<playerController_v2>().maxVelocityChange = 5.0f;
         flight = false;
     }
