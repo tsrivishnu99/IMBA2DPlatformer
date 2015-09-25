@@ -69,7 +69,7 @@ public class ChangeState : MonoBehaviour {
     {
         this.gameObject.GetComponent<Renderer>().material.color = new Color(1, 0, 1, 0);
         playerCollider.material = defaultMaterial;
-        this.GetComponent<playerController_v2>().jumpHeight = 2.0f;
+        this.GetComponent<playerController_v2>().jumpHeight = 10.0f;
         this.GetComponent<Rigidbody>().mass = 10.0f;
         this.GetComponent<playerController_v2>().gravity = 10.0f;
         this.GetComponent<playerController_v2>().speed = 10.0f;
