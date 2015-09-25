@@ -9,7 +9,7 @@ public class playerController_v2 : MonoBehaviour
     public float speed = 10.0f;
     public float gravity = 10.0f;
     public float maxVelocityChange = 5.0f;
-    public float boost = 0.1f;
+    public float boost = 20.0f;
     public bool canJump = true;
     public float jumpHeight = 2.0f;
     public float rotationSpeed = 2.0f;
@@ -36,7 +36,7 @@ public class playerController_v2 : MonoBehaviour
             // Apply a force that attempts to reach our target velocity
             Vector3 velocity = rigidbody.velocity;
             Vector3 velocityChange = (targetVelocity - velocity);
-            velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+            //velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
             velocityChange.z = 0;   
             velocityChange.y = 0;
             rigidbody.AddForce(velocityChange, ForceMode.VelocityChange);
@@ -49,12 +49,33 @@ public class playerController_v2 : MonoBehaviour
         }
         else
         {
-            //if(this.gameObject.GetComponent<player_InputHandler_v3>().leftClamped)
+            if(this.gameObject.GetComponent<player_InputHandler_v3>().leftClamped)
             {
                 Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, 0);            // Input.GetAxis("Vertical"));
                 targetVelocity = transform.TransformDirection(targetVelocity);
                 targetVelocity *= boost;
-                rigidbody.AddForce(targetVelocity, ForceMode.Impulse);
+
+                Vector3 velocity = rigidbody.velocity;
+                Vector3 velocityChange = (targetVelocity - velocity);
+                velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+                velocityChange.z = 0;
+                velocityChange.y = 0;
+
+                rigidbody.AddForce(velocityChange, ForceMode.Impulse);
+            }
+            else
+            {
+                Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, 0);            // Input.GetAxis("Vertical"));
+                targetVelocity = transform.TransformDirection(targetVelocity);
+                targetVelocity *= speed;
+
+                Vector3 velocity = rigidbody.velocity;
+                Vector3 velocityChange = (targetVelocity - velocity);
+                velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+                velocityChange.z = 0;
+                velocityChange.y = 0;
+
+                rigidbody.AddForce(velocityChange, ForceMode.VelocityChange);
             }
         }
         
