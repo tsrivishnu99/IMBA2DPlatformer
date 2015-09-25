@@ -6,13 +6,13 @@ public class Collectible : MonoBehaviour {
     {
         if (this.name == "LevelCompleteCollectible")
         {
-            ScoreManager.score -= Time.time;
+            ScoreManager.score += TimeManager.remainingTime;
             LevelManager.levelComplete = true;
         }
         else if (other.tag == "Player")
         {
             ScoreManager.score += 10;
-            Destroy(this.gameObject);
         }
+        Destroy(this.gameObject);
     }
 }
