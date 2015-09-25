@@ -22,7 +22,6 @@ public class ChangeState : MonoBehaviour {
     void Update()
     {
 
-        Debug.Log(this.gameObject.GetComponent<Renderer>().material.color);
 
         if (Input.GetKeyDown(KeyCode.Z))
             sticky();
