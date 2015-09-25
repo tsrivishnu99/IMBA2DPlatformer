@@ -6,17 +6,18 @@ using System.Collections;
 
 public class playerController_v2 : MonoBehaviour
 {
-    public float speed = 10f;
+    public float speed;
     public float gravity = 10.0f;
     public float maxVelocityChange = 5.0f;
-    public float boost = 10.0f;
+    public float boost ;
     public bool canJump = true;
-    public float jumpHeight = 3.0f;
-    public float horizontalPush = 20.0f;
+    public float jumpHeight;
+    public float horizontalPush;
     public float rotationSpeed = 2.0f;
     public bool grounded = false;
     public float groundPosis;
 
+    public bool isFlightPrev = false;
     public bool isFlightMode = false;
 
     private Rigidbody rigidbody;
@@ -26,6 +27,10 @@ public class playerController_v2 : MonoBehaviour
         rigidbody = this.gameObject.GetComponent<Rigidbody>();
         rigidbody.freezeRotation = true;
        // rigidbody.useGravity = false;
+    }
+    void Start()
+    {
+        groundPosis = this.transform.position.y;
     }
 
     void FixedUpdate()
@@ -92,7 +97,7 @@ public class playerController_v2 : MonoBehaviour
         // We apply gravity manually for more tuning control
         rigidbody.AddForce(new Vector3(0, -gravity * rigidbody.mass, 0));
         grounded = false;
-        if (this.transform.position.y >= groundPosis + 3.0f && !isFlightMode)
+        if (this.transform.position.y >= groundPosis + 3.0f && !isFlightMode &&!isFlightPrev)
         {
 
          this.transform.position =  new Vector3 (this.transform.position.x, Mathf.Clamp(this.transform.position.y, groundPosis, groundPosis + 3.0f) , this.transform.position.z);
@@ -106,11 +111,13 @@ public class playerController_v2 : MonoBehaviour
         if (collisionInf.collider.name.Contains("Platform"))
         {
             grounded = true;
+         
         }
 
     }
     void OnCollisionEnter(Collision collisionInf)
     {
+
         RaycastHit hit;
 
         Physics.Raycast(this.transform.position, new Vector3(Input.GetAxis("Horizontal"), 0f, 0f), out hit, 1f);
@@ -129,6 +136,7 @@ public class playerController_v2 : MonoBehaviour
         else if (collisionInf.collider.name.Contains("Platform"))
         {
             grounded = true;
+            isFlightPrev = false;
         }
         
     }
