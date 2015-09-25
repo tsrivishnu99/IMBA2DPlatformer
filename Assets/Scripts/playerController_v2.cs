@@ -6,16 +6,18 @@ using System.Collections;
 
 public class playerController_v2 : MonoBehaviour
 {
-	public float speed;
+    public float speed = 10f;
     public float gravity = 10.0f;
     public float maxVelocityChange = 5.0f;
-	public float boost;
+    public float boost = 10.0f;
     public bool canJump = true;
-	public float jumpHeight;
-	public float horizontalPush;
+    public float jumpHeight = 3.0f;
+    public float horizontalPush = 20.0f;
     public float rotationSpeed = 2.0f;
     public bool grounded = false;
     public float groundPosis;
+
+    public bool isFlightMode = false;
 
     private Rigidbody rigidbody;
 
@@ -28,8 +30,6 @@ public class playerController_v2 : MonoBehaviour
 
     void FixedUpdate()
     {
-       
-
         if (grounded)
         {
             groundPosis = this.transform.position.y;
@@ -83,11 +83,16 @@ public class playerController_v2 : MonoBehaviour
                 rigidbody.AddForce(velocityChange, ForceMode.VelocityChange);
             }
         }
+
+        if(isFlightMode)
+        {
+            rigidbody.velocity = new Vector3(0f, 2f, 0f);
+        }
         
         // We apply gravity manually for more tuning control
         rigidbody.AddForce(new Vector3(0, -gravity * rigidbody.mass, 0));
-       grounded = false;
-        if (this.transform.position.y >= groundPosis + 5.0f)
+        grounded = false;
+        if (this.transform.position.y >= groundPosis + 3.0f && !isFlightMode)
         {
 
          this.transform.position =  new Vector3 (this.transform.position.x, Mathf.Clamp(this.transform.position.y, groundPosis, groundPosis + 3.0f) , this.transform.position.z);
@@ -112,7 +117,7 @@ public class playerController_v2 : MonoBehaviour
         Debug.DrawRay(this.transform.position, new Vector3(Input.GetAxis("Horizontal"), 0f, 0f), Color.blue);
 
         float angle = Vector3.Angle(hit.normal, new Vector3(Input.GetAxis("Horizontal"), 0f, 0f));
-        Debug.Log(angle + "" + hit.normal + "" + Input.GetAxis("Horizontal"));
+        //Debug.Log(angle + "" + hit.normal + "" + Input.GetAxis("Horizontal"));
 
 
         if (angle == 180)
