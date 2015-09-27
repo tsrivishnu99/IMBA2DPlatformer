@@ -77,17 +77,18 @@ public class ChangeState : MonoBehaviour {
         this.GetComponent<playerController_v2>().maxVelocityChange = 5.0f;
         this.GetComponent<playerController_v2>().isFlightMode = false;
         this.GetComponent<playerController_v2>().isStickyMode = false;
+        this.GetComponent<playerController_v2>().isHeavyMode = false;
         flight = false;
     }
 
     void heavy()
     {
-        
         setDefault();
         this.gameObject.GetComponent<Renderer>().material.color = new Color(0, 1, 0, 0);
         playerCollider.material = heavyMaterial;
         this.GetComponent<playerController_v2>().jumpHeight = 1.0f;
         this.GetComponent<Rigidbody>().mass = 20.0f;
+        this.GetComponent<playerController_v2>().isHeavyMode = true;
     }
 
     void setFlight()

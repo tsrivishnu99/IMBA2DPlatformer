@@ -19,6 +19,8 @@ public class playerController_v2 : MonoBehaviour
     public bool isFlightPrev = false;
     public bool isFlightMode = false;
     public bool isStickyMode = false;
+    public bool isHeavyMode = false;
+
     public float collisionAngle;
     public float collisionAngleVertical;
 
@@ -135,8 +137,13 @@ public class playerController_v2 : MonoBehaviour
         }
 
        if (collisionInf.gameObject.tag == "Bullet")
+       {
+           this.GetComponent<player_InputHandler_v3>().ResetPosis();
+       }
+
+       if (collisionInf.gameObject.tag == "Breakable" && this.GetComponent<playerController_v2>().isHeavyMode)
         {
-            this.GetComponent<player_InputHandler_v3>().ResetPosis();
+            Destroy(collisionInf.gameObject);
         }
     }
 
