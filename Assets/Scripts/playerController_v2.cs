@@ -128,6 +128,11 @@ public class playerController_v2 : MonoBehaviour
 
             grounded = true;
         }
+
+       if (collisionInf.gameObject.tag == "Bullet")
+        {
+            this.GetComponent<player_InputHandler_v3>().ResetPosis();
+        }
         
     }
     void OnCollisionStay(Collision collisionInf)

@@ -106,19 +106,22 @@ public class player_InputHandler_v3 : MonoBehaviour {
 	
 	void FixedUpdate()
 	{
-		if (this.transform.position.y < -15.0f) 
-		{
-			this.transform.position = new Vector3 (startPos.x,startPos.y,startPos.z);
-			this.gameObject.GetComponent<Rigidbody>().AddForce(-this.gameObject.GetComponent<Rigidbody>().velocity, ForceMode.VelocityChange);
-            
-
-			if(leftClamped)
-			{
-                CutRope();
-			}
-		}
-		
+        if (this.transform.position.y < -15.0f)
+        {
+            ResetPosis();
+         }
 	}
+
+  public void ResetPosis()
+    { 
+            this.transform.position = new Vector3(startPos.x, startPos.y, startPos.z);
+            this.gameObject.GetComponent<Rigidbody>().AddForce(-this.gameObject.GetComponent<Rigidbody>().velocity, ForceMode.VelocityChange);
+            if (leftClamped)
+            {
+                CutRope();
+            }
+        
+    }
 
     void CutRope()
     {

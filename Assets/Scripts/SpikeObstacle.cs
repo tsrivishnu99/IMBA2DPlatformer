@@ -11,8 +11,8 @@ public class SpikeObstacle : MonoBehaviour {
     }
 
     void OnCollisionEnter(Collision other)
-    {
-        if(other.gameObject.tag == "Player")
+    { 
+             if(other.gameObject.tag == "Player")
         {
             player.transform.position = startPosition;
         }
