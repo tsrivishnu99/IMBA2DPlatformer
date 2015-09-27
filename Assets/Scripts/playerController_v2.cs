@@ -102,10 +102,10 @@ public class playerController_v2 : MonoBehaviour
             rigidbody.velocity = new Vector3(0f, 2f, 0f);
         }
 
-        if (this.transform.position.y >= groundPosis + 3.0f && !isFlightMode && !isFlightPrev)
+        if (this.transform.position.y >= groundPosis + 5.0f && !isFlightMode && !isFlightPrev)
         {
        
-            this.transform.position =  new Vector3 (this.transform.position.x, Mathf.Clamp(this.transform.position.y, groundPosis, groundPosis + 3.0f) , this.transform.position.z);
+            this.transform.position =  new Vector3 (this.transform.position.x, Mathf.Clamp(this.transform.position.y, groundPosis, groundPosis + 5.0f) , this.transform.position.z);
         }
 
        
