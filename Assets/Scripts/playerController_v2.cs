@@ -52,8 +52,8 @@ public class playerController_v2 : MonoBehaviour
             // Jump
             if (Input.GetButtonDown("Jump"))
             {
-                grounded = false;
                 rigidbody.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
+                StartCoroutine("jumped");
             }
         }
         else
@@ -92,15 +92,15 @@ public class playerController_v2 : MonoBehaviour
 
         if(isFlightMode)
         {
+
             rigidbody.velocity = new Vector3(0f, 2f, 0f);
         }
-        
 
-        if (this.transform.position.y >= groundPosis + 3.0f && !isFlightMode &&!isFlightPrev)
+        if (this.transform.position.y >= groundPosis + 3.0f && !isFlightMode && !isFlightPrev)
         {
 
          this.transform.position =  new Vector3 (this.transform.position.x, Mathf.Clamp(this.transform.position.y, groundPosis, groundPosis + 3.0f) , this.transform.position.z);
-
+  
         }
        
     }
@@ -127,9 +127,24 @@ public class playerController_v2 : MonoBehaviour
             }
 
             grounded = true;
-            isFlightPrev = false;
         }
         
+    }
+    void OnCollisionStay(Collision collisionInf)
+    {
+        if (collisionInf.collider.name.Contains("Platform"))
+        {
+            grounded = true;
+        }
+    }
+
+    void OnCollisionExit(Collision collisionInf)
+    {
+        if (collisionInf.collider.name.Contains("Platform"))
+        {
+            if (this.transform.position.y >= groundPosis)
+                StartCoroutine("jumped");
+        }
     }
 
     float CalculateJumpVerticalSpeed()
@@ -143,5 +158,13 @@ public class playerController_v2 : MonoBehaviour
         // From the jump height and gravity we deduce the upwards speed 
         // for the character to reach at the apex.
         return Mathf.Sqrt(2 * horizontalPush * gravity);
+    }
+
+    IEnumerator jumped()
+    {
+        yield return new WaitForSeconds(0.1f);
+        grounded = false;
+  
+
     }
 }
