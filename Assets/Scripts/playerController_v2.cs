@@ -18,6 +18,9 @@ public class playerController_v2 : MonoBehaviour
 
     public bool isFlightPrev = false;
     public bool isFlightMode = false;
+    public bool isStickyMode = false;
+    public float collisionAngle;
+    public float collisionAngleVertical;
 
     private Rigidbody rigidbody;
 
@@ -55,8 +58,9 @@ public class playerController_v2 : MonoBehaviour
                 rigidbody.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
                 StartCoroutine("jumped");
             }
+       
         }
-        else
+        else if(collisionAngle !=180)
         {
             if(this.gameObject.GetComponent<player_InputHandler_v3>().leftClamped)
             {
@@ -98,48 +102,76 @@ public class playerController_v2 : MonoBehaviour
 
         if (this.transform.position.y >= groundPosis + 3.0f && !isFlightMode && !isFlightPrev)
         {
-
-         this.transform.position =  new Vector3 (this.transform.position.x, Mathf.Clamp(this.transform.position.y, groundPosis, groundPosis + 3.0f) , this.transform.position.z);
-  
+       
+            this.transform.position =  new Vector3 (this.transform.position.x, Mathf.Clamp(this.transform.position.y, groundPosis, groundPosis + 3.0f) , this.transform.position.z);
         }
+
        
     }
 
     void OnCollisionEnter(Collision collisionInf)
     {
-
         RaycastHit hit;
         Physics.Raycast(this.transform.position, new Vector3(Input.GetAxis("Horizontal"), 0f, 0f), out hit, 1f);
         Debug.DrawRay(this.transform.position, new Vector3(Input.GetAxis("Horizontal"), 0f, 0f), Color.blue);
 
-        float angle = Vector3.Angle(hit.normal, new Vector3(Input.GetAxis("Horizontal"), 0f, 0f));
+        collisionAngle = Vector3.Angle(hit.normal, new Vector3(Input.GetAxis("Horizontal"), 0f, 0f));
         //Debug.Log(angle + "" + hit.normal + "" + Input.GetAxis("Horizontal"));
 
 
        
        if (collisionInf.collider.name.Contains("Platform"))
-        {
-            if (angle == 180)
+       {
+           groundPosis = this.transform.position.y;
+           isFlightPrev = false;
+           if (collisionAngle == 180)
             {
                 Vector3 velocity = rigidbody.velocity;
                 rigidbody.velocity = new Vector3(CalculateJumpHorizontalSpeed(), velocity.y, velocity.z);
+               if(!grounded)
+                grounded = false;
 
             }
-
-            grounded = true;
         }
 
        if (collisionInf.gameObject.tag == "Bullet")
         {
             this.GetComponent<player_InputHandler_v3>().ResetPosis();
         }
-        
     }
+
     void OnCollisionStay(Collision collisionInf)
     {
-        if (collisionInf.collider.name.Contains("Platform"))
+        RaycastHit hit;
+        Physics.Raycast(this.transform.position, new Vector3(Input.GetAxis("Horizontal"), 0f, 0f), out hit, 1f);
+        Debug.DrawRay(this.transform.position, new Vector3(Input.GetAxis("Horizontal"), 0f, 0f), Color.blue);
+
+         collisionAngle = Vector3.Angle(hit.normal, new Vector3(Input.GetAxis("Horizontal"), 0f, 0f));
+
+        if (collisionInf.collider.name.Contains("Platform") && collisionAngle == 180 && isStickyMode)
         {
-            grounded = true;
+            rigidbody.velocity = new Vector3(0.0f, 0.0f, 0.0f);
+        }
+
+        if (collisionInf.collider.name.Contains("Platform") &&  collisionAngle == 180)
+        {
+            Vector3 velocity = rigidbody.velocity;
+            rigidbody.velocity = new Vector3(CalculateJumpHorizontalSpeed(), velocity.y, velocity.z);
+            if (!grounded)
+                grounded = false;
+
+        }
+
+
+        RaycastHit hitVertical;
+        Physics.Raycast(this.transform.position, -transform.up, out hitVertical, 1f);
+        Debug.DrawRay(this.transform.position, -transform.up, Color.blue);
+
+        collisionAngleVertical = Vector3.Angle(hitVertical.normal, -transform.up);
+
+        if (collisionInf.collider.name.Contains("Platform") && collisionAngleVertical == 180)
+        {
+             grounded = true;
         }
     }
 
@@ -147,7 +179,6 @@ public class playerController_v2 : MonoBehaviour
     {
         if (collisionInf.collider.name.Contains("Platform"))
         {
-            if (this.transform.position.y >= groundPosis)
                 StartCoroutine("jumped");
         }
     }
