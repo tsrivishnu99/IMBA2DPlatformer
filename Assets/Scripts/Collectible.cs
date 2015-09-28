@@ -2,17 +2,23 @@
 using System.Collections;
 
 public class Collectible : MonoBehaviour {
+
+    private Vector3 initialVelo;
     void OnTriggerEnter(Collider other)
     {
-        if (this.name == "LevelCompleteCollectible")
+        if (other.tag == "Player")
         {
-            ScoreManager.score += TimeManager.remainingTime;
-            LevelManager.levelComplete = true;
+            if (this.name == "LevelCompleteCollectible")
+            {
+                ScoreManager.score += TimeManager.remainingTime;
+                LevelManager.levelComplete = true;
+                Destroy(this.gameObject);
+            }
+            else if (this.tag == "Collectible")
+            {
+                ScoreManager.score += 10;
+                Destroy(this.gameObject);
+            }
         }
-        else if (other.tag == "Player")
-        {
-            ScoreManager.score += 10;
-        }
-        Destroy(this.gameObject);
     }
 }
