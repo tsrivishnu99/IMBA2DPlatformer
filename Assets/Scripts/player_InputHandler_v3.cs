@@ -6,7 +6,7 @@ public class player_InputHandler_v3 : MonoBehaviour {
 	private Rigidbody player;
    	public bool leftClamped;
 	private Vector3 leftHitPoint;
-	private Vector3 startPos;
+	public Vector3 startPos;
 	public Camera fpsCam;
 	RaycastHit hit;
 	public GameObject RopeElement;

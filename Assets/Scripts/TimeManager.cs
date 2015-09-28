@@ -8,7 +8,7 @@ public class TimeManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         timeText = GetComponent<Text>();
-        remainingTime = 1000000.0f;
+        remainingTime = 100.0f;
 	}
 	
 	// Update is called once per frame
