@@ -8,7 +8,7 @@ public class TimeManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         timeText = GetComponent<Text>();
-        remainingTime = 100.0f;
+        remainingTime = 10000.0f;
 	}
 	
 	// Update is called once per frame
@@ -16,6 +16,6 @@ public class TimeManager : MonoBehaviour {
         remainingTime -= Time.deltaTime;
         timeText.text = "Timer: " + (int) remainingTime;
         if (remainingTime <= 0.0f)
-            Application.LoadLevel(Application.loadedLevel);
+            GameObject.FindGameObjectWithTag("Player").GetComponent<player_InputHandler_v3>().ResetPosis();
 	}
 }

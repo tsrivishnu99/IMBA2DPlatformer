@@ -7,14 +7,13 @@ public class SpikeObstacle : MonoBehaviour {
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        startPosition = player.transform.position;
     }
 
     void OnCollisionEnter(Collision other)
     { 
         if(other.gameObject.tag == "Player")
         {
-            player.transform.position = startPosition;
+            player.GetComponent<player_InputHandler_v3>().ResetPosis();
         }
     }
 }

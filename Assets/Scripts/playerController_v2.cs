@@ -141,7 +141,7 @@ public class playerController_v2 : MonoBehaviour
            this.GetComponent<player_InputHandler_v3>().ResetPosis();
        }
 
-        if (collisionInf.gameObject.name == "PitOfDeath")
+        if (collisionInf.gameObject.tag == "PitOfDeath")
         {
             this.GetComponent<player_InputHandler_v3>().ResetPosis();
         }
