@@ -32,7 +32,7 @@ public class NavigationScript : MonoBehaviour {
     private IEnumerator LoadMainLevel()
     {
         yield return new WaitForSeconds(0.5f);
-        Application.LoadLevel("Default");
+        Application.LoadLevel("Tutorial");
     }
 
     private IEnumerator LoadTutorial()
